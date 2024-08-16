@@ -7,6 +7,8 @@ class UserModel {
   int id;
   String? username;
   String? email;
+  String? phone;
+  String? website;
 
   UserModel({
     required this.id,
