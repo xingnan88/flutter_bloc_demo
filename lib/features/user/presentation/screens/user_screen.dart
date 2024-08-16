@@ -10,24 +10,29 @@ class UserScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 15, 15, 15),
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        centerTitle: true,
-        title: const Text('Bloc',
-            style: TextStyle(color: Colors.white, fontSize: 20)),
-      ),
-      body: BlocBuilder<UserBloc, UserState>(builder: (context, state) {
-        return switch (state) {
-          UserLoading() => const Center(
-              child: CircularProgressIndicator(),
-            ),
-          UserError() => const Center(
-              child: Text('Failed to fetch users'),
-            ),
-          UserLoaded() => UserBodyWidget(users: state.users),
-        };
-      }),
-    );
+        backgroundColor: const Color.fromARGB(255, 15, 15, 15),
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          centerTitle: true,
+          title: const Text('Bloc',
+              style: TextStyle(color: Colors.white, fontSize: 20)),
+        ),
+        body: _body(context));
+  }
+
+  Widget _body(BuildContext context) {
+    final state = context.watch<UserBloc>().state;
+    return switch (state) {
+      UserLoading() => const Center(
+          child: CircularProgressIndicator(),
+        ),
+      UserError() => const Center(
+          child: Text(
+            'Failed to fetch users',
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+        ),
+      UserLoaded() => UserBodyWidget(users: state.users),
+    };
   }
 }
